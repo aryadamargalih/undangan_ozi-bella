@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generator Undangan - Keluarga Sahril Arifin</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #f4f1eb;
+        min-height: 100vh;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        padding: 2rem 1rem 4rem;
+      }
+      .page {
+        max-width: 560px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 20px;
+        font-weight: 500;
+        color: #1a1a1a;
+        margin-bottom: 4px;
+      }
+      .subtitle {
+        font-size: 13px;
+        color: #888;
+        margin-bottom: 1.5rem;
+      }
+      .card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 1.5rem;
+        border: 0.5px solid #e5e0d8;
+        margin-bottom: 1.25rem;
+      }
+      .card-title {
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #aaa;
+        margin-bottom: 1rem;
+      }
+
+      .who-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 1rem;
+      }
+      .who-row input {
+        flex: 1;
+        font-size: 14px;
+        padding: 9px 14px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        background: #fafaf8;
+        color: #1a1a1a;
+        outline: none;
+        font-family: "Inter", sans-serif;
+      }
+      .who-row input:focus {
+        border-color: #c9a96e;
+      }
+      .who-row .btn-set {
+        padding: 9px 16px;
+        border-radius: 10px;
+        background: #111;
+        color: #f5f0e8;
+        border: none;
+        font-size: 13px;
+        cursor: pointer;
+        font-family: "Inter", sans-serif;
+      }
+      .who-row .btn-set:hover {
+        background: #333;
+      }
+      .who-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f5f0e8;
+        border-radius: 20px;
+        padding: 4px 12px;
+        font-size: 12px;
+        color: #7a6a4f;
+        margin-bottom: 1rem;
+      }
+      .who-badge button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #aaa;
+        font-size: 14px;
+        line-height: 1;
+        padding: 0;
+      }
+
+      .input-row {
+        display: flex;
+        gap: 8px;
+      }
+      .input-row input {
+        flex: 1;
+        font-size: 15px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        background: #fafaf8;
+        color: #1a1a1a;
+        outline: none;
+        font-family: "Inter", sans-serif;
+      }
+      .input-row input:focus {
+        border-color: #c9a96e;
+      }
+      .btn-generate {
+        padding: 10px 20px;
+        border-radius: 10px;
+        background: #111;
+        color: #f5f0e8;
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+        font-family: "Inter", sans-serif;
+        white-space: nowrap;
+      }
+      .btn-generate:hover {
+        background: #333;
+      }
+      .btn-generate:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      .result-box {
+        display: none;
+        margin-top: 1rem;
+        background: #fafaf8;
+        border: 1px solid #e5e0d8;
+        border-radius: 10px;
+        padding: 12px 14px;
+      }
+      .result-label {
+        font-size: 11px;
+        color: #aaa;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .result-link {
+        font-size: 13px;
+        color: #1a1a1a;
+        word-break: break-all;
+        line-height: 1.6;
+      }
+      .result-link span {
+        color: #c9a96e;
+        font-weight: 500;
+      }
+      .btn-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+      }
+      .btn-copy,
+      .btn-wa {
+        flex: 1;
+        min-width: 120px;
+        padding: 9px 14px;
+        border-radius: 8px;
+        font-size: 13px;
+        cursor: pointer;
+        font-family: "Inter", sans-serif;
+        border: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: background 0.15s;
+      }
+      .btn-copy {
+        background: #fff;
+        color: #1a1a1a;
+      }
+      .btn-copy:hover {
+        background: #f0ece4;
+      }
+      .btn-copy.copied {
+        border-color: #5cb87a;
+        color: #3a7d52;
+        background: #f0faf4;
+      }
+      .btn-wa {
+        background: #25d366;
+        color: #fff;
+        border-color: #25d366;
+      }
+      .btn-wa:hover {
+        background: #1db954;
+      }
+
+      .list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+      }
+      .list-count {
+        font-size: 12px;
+        color: #aaa;
+      }
+      .btn-refresh {
+        font-size: 12px;
+        color: #c9a96e;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: "Inter", sans-serif;
+      }
+
+      .guest-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0;
+        border-bottom: 0.5px solid #f0ece4;
+      }
+      .guest-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      .guest-info {
+        flex: 1;
+      }
+      .guest-item-name {
+        font-size: 14px;
+        color: #1a1a1a;
+      }
+      .guest-item-by {
+        font-size: 11px;
+        color: #bbb;
+        margin-top: 2px;
+      }
+      .btn-item-copy,
+      .btn-item-wa,
+      .btn-item-del {
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+        font-family: "Inter", sans-serif;
+        border: 1px solid #ddd;
+        transition: background 0.1s;
+      }
+      .btn-item-copy {
+        background: #fff;
+        color: #1a1a1a;
+      }
+      .btn-item-copy:hover {
+        background: #f0ece4;
+      }
+      .btn-item-copy.copied {
+        border-color: #5cb87a;
+        color: #3a7d52;
+      }
+      .btn-item-wa {
+        background: #25d366;
+        color: #fff;
+        border-color: #25d366;
+        font-size: 11px;
+      }
+      .btn-item-wa:hover {
+        background: #1db954;
+      }
+      .btn-item-del {
+        background: #fff;
+        color: #e24b4a;
+        border-color: #f7c1c1;
+      }
+      .btn-item-del:hover {
+        background: #fcebeb;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 2rem 0;
+        color: #bbb;
+        font-size: 13px;
+      }
+      .loading-state {
+        text-align: center;
+        padding: 1.5rem 0;
+        color: #bbb;
+        font-size: 13px;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1a1a1a;
+        color: #fff;
+        font-size: 13px;
+        padding: 10px 20px;
+        border-radius: 20px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+        white-space: nowrap;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+
+      .tab-bar {
+        display: flex;
+        gap: 0;
+        margin-bottom: 1.25rem;
+        background: #fff;
+        border-radius: 12px;
+        border: 0.5px solid #e5e0d8;
+        overflow: hidden;
+      }
+      .tab {
+        flex: 1;
+        padding: 10px;
+        text-align: center;
+        font-size: 13px;
+        color: #aaa;
+        cursor: pointer;
+        border: none;
+        background: none;
+        font-family: "Inter", sans-serif;
+        transition: background 0.15s;
+      }
+      .tab.active {
+        background: #111;
+        color: #f5f0e8;
+      }
+
+      #panelList {
+        display: none;
+      }
+      #panelList.active {
+        display: block;
+      }
+      #panelAdd {
+        display: none;
+      }
+      #panelAdd.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div style="margin-bottom: 1.25rem; padding-top: 0.5rem">
+        <h1>Generator Undangan</h1>
+        <p class="subtitle">
+          Halal Bihalal & Open House - Keluarga Sahril Arifin
+        </p>
+      </div>
+
+      <!-- Identitas pengirim -->
+      <div class="card" id="whoCard">
+        <p class="card-title">Kamu siapa?</p>
+        <div id="whoForm">
+          <div class="who-row">
+            <input
+              type="text"
+              id="whoInput"
+              placeholder="Nama kamu, contoh: Sahril"
+            />
+            <button class="btn-set" onclick="setWho()">Simpan</button>
+          </div>
+          <p style="font-size: 12px; color: #bbb">
+            Ini untuk mencatat siapa yang mengundang tamu tersebut.
+          </p>
+        </div>
+        <div id="whoBadgeWrap" style="display: none">
+          <div class="who-badge">
+            <span>Mengundang sebagai: <strong id="whoName"></strong></span>
+            <button onclick="resetWho()" title="Ganti">&#10005;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab bar -->
+      <div class="tab-bar">
+        <button class="tab active" id="tabAdd" onclick="switchTab('add')">
+          Tambah Tamu
+        </button>
+        <button class="tab" id="tabList" onclick="switchTab('list')">
+          Daftar Semua Tamu
+        </button>
+      </div>
+
+      <!-- Panel: Tambah -->
+      <div id="panelAdd" class="active">
+        <div class="card">
+          <p class="card-title">Nama Tamu</p>
+          <div class="input-row">
+            <input
+              type="text"
+              id="nameInput"
+              placeholder="Contoh: Budi Santoso"
+            />
+            <button class="btn-generate" id="btnAdd" onclick="addGuest()">
+              Tambah
+            </button>
+          </div>
+          <div class="result-box" id="resultBox">
+            <p class="result-label">Link siap kirim</p>
+            <p class="result-link" id="resultLink"></p>
+            <div class="btn-row">
+              <button class="btn-copy" id="btnCopy" onclick="copyLink()">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" />
+                  <path
+                    d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
+                  />
+                </svg>
+                Salin Link
+              </button>
+              <button class="btn-wa" onclick="sendWa()">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+                  />
+                </svg>
+                Kirim WA
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel: Daftar -->
+      <div id="panelList">
+        <div class="card">
+          <div class="list-header">
+            <p class="card-title" style="margin-bottom: 0">Semua Tamu</p>
+            <div style="display: flex; gap: 10px; align-items: center">
+              <span class="list-count" id="listCount">-</span>
+              <button class="btn-refresh" onclick="loadGuests()">
+                Muat ulang
+              </button>
+            </div>
+          </div>
+          <div id="guestList"><div class="loading-state">Memuat...</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      var SUPABASE_URL = "https://arifkoiamyjchqnqjnjx.supabase.co";
+      var SUPABASE_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFyaWZrb2lhbXlqY2hxbnFqbmp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMDM3NTEsImV4cCI6MjA5MDY3OTc1MX0.f5UwZsJ1f9SOqs5ECk1EmrVnUjGKlvpIOvWZmrm-pa8";
+      var BASE_URL = "https://openhouse-pi.vercel.app";
+      var lastLink = "";
+      var currentWho = localStorage.getItem("who") || "";
+
+      initWho();
+
+      document
+        .getElementById("nameInput")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter") addGuest();
+        });
+      document
+        .getElementById("whoInput")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter") setWho();
+        });
+
+      function initWho() {
+        if (currentWho) showWhoBadge();
+        else showWhoForm();
+      }
+
+      function setWho() {
+        var val = document.getElementById("whoInput").value.trim();
+        if (!val) return;
+        currentWho = val;
+        localStorage.setItem("who", val);
+        showWhoBadge();
+      }
+
+      function resetWho() {
+        currentWho = "";
+        localStorage.removeItem("who");
+        document.getElementById("whoInput").value = "";
+        showWhoForm();
+      }
+
+      function showWhoBadge() {
+        document.getElementById("whoForm").style.display = "none";
+        document.getElementById("whoBadgeWrap").style.display = "block";
+        document.getElementById("whoName").textContent = currentWho;
+      }
+
+      function showWhoForm() {
+        document.getElementById("whoForm").style.display = "block";
+        document.getElementById("whoBadgeWrap").style.display = "none";
+      }
+
+      function makeLink(name) {
+        return BASE_URL + "/undangan.html?nama=" + encodeURIComponent(name);
+      }
+
+      function switchTab(tab) {
+        if (tab === "add") {
+          document.getElementById("panelAdd").classList.add("active");
+          document.getElementById("panelList").classList.remove("active");
+          document.getElementById("tabAdd").classList.add("active");
+          document.getElementById("tabList").classList.remove("active");
+        } else {
+          document.getElementById("panelAdd").classList.remove("active");
+          document.getElementById("panelList").classList.add("active");
+          document.getElementById("tabAdd").classList.remove("active");
+          document.getElementById("tabList").classList.add("active");
+          loadGuests();
+        }
+      }
+
+      async function addGuest() {
+        if (!currentWho) {
+          showToast("Isi nama kamu dulu ya!");
+          return;
+        }
+        var name = document.getElementById("nameInput").value.trim();
+        if (!name) return;
+
+        var btn = document.getElementById("btnAdd");
+        btn.disabled = true;
+        btn.textContent = "Menyimpan...";
+
+        try {
+          var res = await fetch(SUPABASE_URL + "/rest/v1/tamu", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              apikey: SUPABASE_KEY,
+              Authorization: "Bearer " + SUPABASE_KEY,
+              Prefer: "return=minimal",
+            },
+            body: JSON.stringify({ nama: name, ditambahkan_oleh: currentWho }),
+          });
+
+          if (!res.ok) throw new Error("Gagal simpan");
+
+          var link = makeLink(name);
+          lastLink = link;
+
+          document.getElementById("resultLink").innerHTML =
+            BASE_URL + "/undangan.html?nama=<span>" + escHtml(name) + "</span>";
+          document.getElementById("resultBox").style.display = "block";
+
+          var btnCopy = document.getElementById("btnCopy");
+          btnCopy.classList.remove("copied");
+          btnCopy.innerHTML =
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Salin Link';
+
+          document.getElementById("nameInput").value = "";
+          showToast("Tamu berhasil ditambahkan!");
+        } catch (e) {
+          showToast("Gagal menyimpan, cek koneksi.");
+        }
+
+        btn.disabled = false;
+        btn.textContent = "Tambah";
+        document.getElementById("nameInput").focus();
+      }
+
+      async function loadGuests() {
+        document.getElementById("guestList").innerHTML =
+          '<div class="loading-state">Memuat data...</div>';
+        try {
+          var res = await fetch(
+            SUPABASE_URL + "/rest/v1/tamu?select=*&order=created_at.desc",
+            {
+              headers: {
+                apikey: SUPABASE_KEY,
+                Authorization: "Bearer " + SUPABASE_KEY,
+              },
+            },
+          );
+          var data = await res.json();
+          renderList(data);
+        } catch (e) {
+          document.getElementById("guestList").innerHTML =
+            '<div class="empty-state">Gagal memuat data.</div>';
+        }
+      }
+
+      function renderList(data) {
+        var count = document.getElementById("listCount");
+        count.textContent = data.length + " tamu";
+
+        if (data.length === 0) {
+          document.getElementById("guestList").innerHTML =
+            '<div class="empty-state">Belum ada tamu.</div>';
+          return;
+        }
+
+        document.getElementById("guestList").innerHTML = data
+          .map(function (row) {
+            return (
+              '<div class="guest-item">' +
+              '<div class="guest-info">' +
+              '<div class="guest-item-name">' +
+              escHtml(row.nama) +
+              "</div>" +
+              '<div class="guest-item-by">Diundang oleh: ' +
+              escHtml(row.ditambahkan_oleh || "-") +
+              "</div>" +
+              "</div>" +
+              '<button class="btn-item-copy" onclick="copyItemLink(\'' +
+              escAttr(row.nama) +
+              "', this)\">Salin</button>" +
+              '<button class="btn-item-wa" onclick="waItem(\'' +
+              escAttr(row.nama) +
+              "')\">WA</button>" +
+              '<button class="btn-item-del" onclick="delItem(\'' +
+              row.id +
+              "', this)\">&#10005;</button>" +
+              "</div>"
+            );
+          })
+          .join("");
+      }
+
+      function copyItemLink(name, btn) {
+        navigator.clipboard.writeText(makeLink(name)).then(function () {
+          btn.classList.add("copied");
+          btn.textContent = "Tersalin!";
+          setTimeout(function () {
+            btn.classList.remove("copied");
+            btn.textContent = "Salin";
+          }, 2000);
+        });
+      }
+
+      function waItem(name) {
+        var link = makeLink(name);
+        var msg =
+          "Assalamu'alaikum, kami mengundang Anda ke acara Halal Bihalal & Open House Keluarga Sahril Arifin.\n\nSilakan buka undangan Anda di sini:\n" +
+          link;
+        window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
+      }
+
+      async function delItem(id, btn) {
+        if (!confirm("Hapus tamu ini?")) return;
+        btn.disabled = true;
+        try {
+          await fetch(SUPABASE_URL + "/rest/v1/tamu?id=eq." + id, {
+            method: "DELETE",
+            headers: {
+              apikey: SUPABASE_KEY,
+              Authorization: "Bearer " + SUPABASE_KEY,
+            },
+          });
+          loadGuests();
+          showToast("Tamu dihapus.");
+        } catch (e) {
+          showToast("Gagal menghapus.");
+          btn.disabled = false;
+        }
+      }
+
+      function copyLink() {
+        navigator.clipboard.writeText(lastLink).then(function () {
+          var btn = document.getElementById("btnCopy");
+          btn.classList.add("copied");
+          btn.innerHTML = "&#10003; Tersalin!";
+        });
+      }
+
+      function sendWa() {
+        var msg =
+          "Assalamu'alaikum, kami mengundang Anda ke acara Halal Bihalal & Open House Keluarga Sahril Arifin.\n\nSilakan buka undangan Anda di sini:\n" +
+          lastLink;
+        window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
+      }
+
+      function showToast(msg) {
+        var t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(function () {
+          t.classList.remove("show");
+        }, 2500);
+      }
+
+      function escHtml(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+      function escAttr(str) {
+        return String(str).replace(/'/g, "\\'").replace(/\\/g, "\\\\");
+      }
+    </script>
+  </body>
+</html>
